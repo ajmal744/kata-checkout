@@ -18,7 +18,14 @@ namespace Kata.Checkout.Tests
                 new Product{SKU = 'C', Price = 20},
                 new Product{SKU = 'D', Price = 15}
             };
-            register = new CashRegister(products);
+
+            IEnumerable<Discount> discounts = new[]
+            {
+                new Discount{SKU = 'A', Quantity = 3, Value = 20},
+                new Discount{SKU = 'B', Quantity = 2, Value = 15}
+            };
+
+            register = new CashRegister(products, discounts);
         }
 
         [Fact]

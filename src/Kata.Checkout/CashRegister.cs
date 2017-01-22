@@ -7,15 +7,12 @@ namespace Kata.Checkout
     public class CashRegister
     {
         private readonly IEnumerable<IProduct> catalog;
-        private Dictionary<char, int[]> discounts;
+        private readonly IEnumerable<IDiscount> discounts;
 
-        public CashRegister(IEnumerable<IProduct> products)
+        public CashRegister(IEnumerable<IProduct> products, IEnumerable<IDiscount> discounts)
         {
-            catalog = products;
-            discounts = new Dictionary<char, int[]>() {
-                { 'A', new int[] { 3, 20 } },
-                { 'B', new int[] { 2, 15 } }
-            };
+            this.catalog = products;
+            this.discounts = discounts;
         }
 
         public int Scan(String scan)
@@ -31,7 +28,7 @@ namespace Kata.Checkout
             char[] cart = scan.ToCharArray();
 
             total = cart.Sum(item => PriceFor(item));
-            totalDiscount = discounts.Sum(discount => CalculateDiscount(discount.Key, discount.Value, cart));
+            totalDiscount = discounts.Sum(discount => CalculateDiscount(discount, cart));
 
             return total - totalDiscount;
         }
@@ -41,10 +38,10 @@ namespace Kata.Checkout
             return catalog.Single(p => p.SKU == sku).Price;
         }
 
-        private int CalculateDiscount(char sku, int[] discount, char[] cart)
+        private int CalculateDiscount(IDiscount discount, char[] cart)
         {
-            int itemCount = cart.Count(item => item == sku);
-            return (itemCount / discount[0]) * discount[1];
+            int itemCount = cart.Count(item => item == discount.SKU);
+            return (itemCount / discount.Quantity) * discount.Value;
         }
     }
 }
