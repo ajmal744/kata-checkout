@@ -31,7 +31,7 @@ namespace Kata.Checkout.Tests
         [Fact]
         public void No_items_returns_zero()
         {
-            Assert.Equal(0, register.Scan(""));
+            Assert.Equal(0, register.Scan("").Total());
         }
 
         [Theory]
@@ -41,7 +41,7 @@ namespace Kata.Checkout.Tests
         [InlineData("D", 15)]
         public void Scan_single_item_expect_correct_price(string item, int expected)
         {
-            Assert.Equal(expected, register.Scan(item));
+            Assert.Equal(expected, register.Scan(item).Total());
         }
 
         [Theory]
@@ -52,7 +52,7 @@ namespace Kata.Checkout.Tests
         [InlineData("CDBA", 115)]
         public void Scan_no_discount_combinations_and_expect_total(string scan, int expected)
         {
-            Assert.Equal(expected, register.Scan(scan));
+            Assert.Equal(expected, register.Scan(scan).Total());
         }
 
         [Theory]
@@ -67,7 +67,7 @@ namespace Kata.Checkout.Tests
         [InlineData("BBBBACD", 175)]
         public void Scan_discounted_combinations_and_expect_correct_total(string scan, int expected)
         {
-            Assert.Equal(expected, register.Scan(scan));
+            Assert.Equal(expected, register.Scan(scan).Total());
         }
     }
 }

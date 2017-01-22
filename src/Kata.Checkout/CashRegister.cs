@@ -8,28 +8,30 @@ namespace Kata.Checkout
     {
         private readonly IEnumerable<IProduct> catalog;
         private readonly IEnumerable<IDiscount> discounts;
+        public char[] scannedProducts { get; private set; }
 
         public CashRegister(IEnumerable<IProduct> products, IEnumerable<IDiscount> discounts)
         {
             this.catalog = products;
             this.discounts = discounts;
+            this.scannedProducts = new char[] { };
         }
 
-        public int Scan(String scan)
+        public CashRegister Scan(String scan)
+        {
+            if (!String.IsNullOrEmpty(scan))
+            {
+                this.scannedProducts = scan.ToCharArray();
+            }
+            return this;
+        }
+
+        public int Total()
         {
             int total = 0;
             int totalDiscount = 0;
-
-            if (String.IsNullOrEmpty(scan))
-            {
-                return total;
-            }
-
-            char[] cart = scan.ToCharArray();
-
-            total = cart.Sum(item => PriceFor(item));
-            totalDiscount = discounts.Sum(discount => CalculateDiscount(discount, cart));
-
+            total = this.scannedProducts.Sum(item => PriceFor(item));
+            totalDiscount = discounts.Sum(discount => CalculateDiscount(discount, this.scannedProducts));
             return total - totalDiscount;
         }
 
