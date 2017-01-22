@@ -8,7 +8,9 @@ namespace Kata.Checkout
     {
         private readonly IEnumerable<IProduct> catalog;
         private readonly IEnumerable<IDiscount> discounts;
+
         private char[] scannedProducts;
+        public char[] ScannedProducts { get { return scannedProducts; } }
 
         public CashRegister(IEnumerable<IProduct> products, IEnumerable<IDiscount> discounts)
         {
@@ -21,7 +23,10 @@ namespace Kata.Checkout
         {
             if (!String.IsNullOrEmpty(scan))
             {
-                scannedProducts = scan.ToCharArray();
+                scannedProducts = scan
+                    .ToCharArray()
+                    .Where(scannedSKU => catalog.Any(product => product.SKU == scannedSKU))
+                    .ToArray();
             }
             return this;
         }

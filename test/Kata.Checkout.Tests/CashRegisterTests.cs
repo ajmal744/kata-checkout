@@ -69,5 +69,17 @@ namespace Kata.Checkout.Tests
         {
             Assert.Equal(expected, register.Scan(scan).Total());
         }
+
+        [Theory]
+        [InlineData("EEGHKYLP", "")]
+        [InlineData("ABCDE", "ABCD")]
+        [InlineData("AAAA", "AAAA")]
+        public void Scan_should_filter_invalid_sku(string scan, string expected)
+        {
+            Assert.Equal(
+                expected,
+                new String(register.Scan(scan).ScannedProducts)
+            );
+        }
     }
 }

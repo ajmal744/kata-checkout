@@ -5,6 +5,7 @@ namespace Kata.Checkout
     public interface ICashRegister
     {
         ICashRegister Scan(String scan);
-		int Total();
+        int Total();
+        char[] ScannedProducts { get; }
     }
 }
