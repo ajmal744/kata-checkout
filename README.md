@@ -1,5 +1,13 @@
 # checkout-kata
 
+.NET core supermarket pricing kata
+
+## Requirements
+
+- [.NET core 1.1](https://www.microsoft.com/net/core)
+
+# Overview
+
 We’re going to see how far we can get in implementing a supermarket checkout that
 calculates the total price of a number of items. In a normal supermarket,
 things are identified using Stock Keeping Units, or SKUs. In our store,
