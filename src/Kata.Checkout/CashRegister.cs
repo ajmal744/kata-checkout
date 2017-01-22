@@ -1,33 +1,42 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Kata.Checkout
 {
     public class CashRegister
     {
-        private Dictionary<string, int> catalog;
+        private Dictionary<char, int> catalog;
 
         public CashRegister()
         {
-            catalog = new Dictionary<string, int>() {
-                { "A", 50 },
-                { "B", 30 },
-                { "C", 20 },
-                { "D", 15 }
+            catalog = new Dictionary<char, int>() {
+                { 'A', 50 },
+                { 'B', 30 },
+                { 'C', 20 },
+                { 'D', 15 }
             };
         }
 
         public int Scan(String scan)
         {
-            var price = -1;
+            var total = 0;
 
             if (String.IsNullOrEmpty(scan))
             {
-                return 0;
+                return total;
             }
 
-            catalog.TryGetValue(scan, out price);
+            var items = scan.ToCharArray();
+            total = items.Sum(item => PriceFor(item));
 
+            return total;
+        }
+
+        private int PriceFor(char sku)
+        {
+            int price = 0;
+            catalog.TryGetValue(sku, out price);
             return price;
         }
     }

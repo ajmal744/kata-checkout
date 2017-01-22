@@ -28,5 +28,15 @@ namespace Kata.Checkout.Tests
         {
             Assert.Equal(expected, register.Scan(item));
         }
+
+        [Theory]
+        [InlineData("AA", 100)]
+        [InlineData("AB", 80)]
+        [InlineData("ABC", 100)]
+        [InlineData("ABCCDD", 150)]
+        public void Scan_no_discount_combinations_and_expect_total(string scan, int expected)
+        {
+            Assert.Equal(expected, register.Scan(scan));
+        }
     }
 }
