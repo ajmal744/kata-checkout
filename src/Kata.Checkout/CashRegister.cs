@@ -6,18 +6,12 @@ namespace Kata.Checkout
 {
     public class CashRegister
     {
-        private Dictionary<char, int> catalog;
+        private readonly IEnumerable<IProduct> catalog;
         private Dictionary<char, int[]> discounts;
 
-        public CashRegister()
+        public CashRegister(IEnumerable<IProduct> products)
         {
-            catalog = new Dictionary<char, int>() {
-                { 'A', 50 },
-                { 'B', 30 },
-                { 'C', 20 },
-                { 'D', 15 }
-            };
-
+            catalog = products;
             discounts = new Dictionary<char, int[]>() {
                 { 'A', new int[] { 3, 20 } },
                 { 'B', new int[] { 2, 15 } }
@@ -44,9 +38,7 @@ namespace Kata.Checkout
 
         private int PriceFor(char sku)
         {
-            int price = 0;
-            catalog.TryGetValue(sku, out price);
-            return price;
+            return catalog.Single(p => p.SKU == sku).Price;
         }
 
         private int CalculateDiscount(char sku, int[] discount, char[] cart)

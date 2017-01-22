@@ -1,6 +1,7 @@
 using System;
 using Kata.Checkout;
 using Xunit;
+using System.Collections.Generic;
 
 namespace Kata.Checkout.Tests
 {
@@ -10,7 +11,14 @@ namespace Kata.Checkout.Tests
 
         public CashRegisterTests()
         {
-            register = new CashRegister();
+            IEnumerable<Product> products = new[]
+            {
+                new Product{SKU = 'A', Price = 50},
+                new Product{SKU = 'B', Price = 30},
+                new Product{SKU = 'C', Price = 20},
+                new Product{SKU = 'D', Price = 15}
+            };
+            register = new CashRegister(products);
         }
 
         [Fact]
