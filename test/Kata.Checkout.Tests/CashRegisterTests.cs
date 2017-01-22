@@ -18,5 +18,15 @@ namespace Kata.Checkout.Tests
         {
             Assert.Equal(0, register.Scan(""));
         }
+
+        [Theory]
+        [InlineData("A", 50)]
+        [InlineData("B", 30)]
+        [InlineData("C", 20)]
+        [InlineData("D", 15)]
+        public void Scan_single_item_expect_correct_price(string item, int expected)
+        {
+            Assert.Equal(expected, register.Scan(item));
+        }
     }
 }
