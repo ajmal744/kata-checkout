@@ -7,7 +7,7 @@ namespace Kata.Checkout.Tests
 {
     public class CashRegisterTests
     {
-        private CashRegister register;
+        private ICashRegister register;
 
         public CashRegisterTests()
         {

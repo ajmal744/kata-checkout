@@ -4,24 +4,24 @@ using System.Linq;
 
 namespace Kata.Checkout
 {
-    public class CashRegister
+    public class CashRegister : ICashRegister
     {
         private readonly IEnumerable<IProduct> catalog;
         private readonly IEnumerable<IDiscount> discounts;
-        public char[] scannedProducts { get; private set; }
+        private char[] scannedProducts;
 
         public CashRegister(IEnumerable<IProduct> products, IEnumerable<IDiscount> discounts)
         {
             this.catalog = products;
             this.discounts = discounts;
-            this.scannedProducts = new char[] { };
+            scannedProducts = new char[] { };
         }
 
-        public CashRegister Scan(String scan)
+        public ICashRegister Scan(String scan)
         {
             if (!String.IsNullOrEmpty(scan))
             {
-                this.scannedProducts = scan.ToCharArray();
+                scannedProducts = scan.ToCharArray();
             }
             return this;
         }
@@ -30,8 +30,8 @@ namespace Kata.Checkout
         {
             int total = 0;
             int totalDiscount = 0;
-            total = this.scannedProducts.Sum(item => PriceFor(item));
-            totalDiscount = discounts.Sum(discount => CalculateDiscount(discount, this.scannedProducts));
+            total = scannedProducts.Sum(item => PriceFor(item));
+            totalDiscount = discounts.Sum(discount => CalculateDiscount(discount, scannedProducts));
             return total - totalDiscount;
         }
 
